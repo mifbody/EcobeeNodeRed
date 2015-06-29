@@ -21,6 +21,12 @@ You will now have an application API key -- save this, as we will need it for ou
 Next, import the Node Red flow located here: 
 > [https://github.com/mifbody/EcobeeNodeRed/blob/master/ecobeeflow.txt](https://github.com/mifbody/EcobeeNodeRed/blob/master/ecobeeflow.txt)
 
+To import a flow into Node Red, copy the data from the above link into your clipboard. Next return to Node Red and use the 3-bar menu button on the top right to open the Menu. Click on `Import` and then `Clipboard`
+
+In the new window that opens, paste the clipboard into the textbox then click OK.
+
+You should now see all the nodes - move your cursor to the top left of the screen and click to drop the flows in place.
+
 <img src='images/EcobeeNodeRedFlow.PNG'/>
 
 ### Customize nodes with your API key and preferred Log location
