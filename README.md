@@ -7,7 +7,7 @@ If you do not have Node Red installed already, I have written a [Windows-based i
 
 
 ### Create an Application; Get an API Key
-1. Log in to `Ecobee.com`, use the 3 line menu button on the top right of Ecobee's website, then select `Developer` from the menu.
+1. Log in to [Ecobee.com](http://www.ecobee.com/), use the 3 line menu button on the top right of Ecobee's website, then select `Developer` from the menu.
 2. Create a new application - such as `EcobeeNodeRed` - and type a brief summary such as `Integration of Ecobee with Node Red`
 3. Change `Authorization method` to `ecobee PIN`.
 4. Save your new application.
@@ -19,7 +19,7 @@ You will now have an application API key -- save this, as we will need it for ou
 
 ### Import flow into Node Red
 Next, import the Node Red flow located here: 
-> ((ADD FLOW LINK))
+> [https://github.com/mifbody/EcobeeNodeRed/blob/master/ecobeeflow.txt](https://github.com/mifbody/EcobeeNodeRed/blob/master/ecobeeflow.txt)
 
 <img src='images/EcobeeNodeRedFlow.PNG'/>
 
@@ -40,11 +40,11 @@ Next we will need to edit each of the `EcobeeTokens` file nodes. Double click ea
 ## First Run
 If you've made it this far and are following along without trouble -- great! Now is the hard part. :)
 
-Due to the security measures required by Ecobee's API, the first run is a little tricky. I would recommend logging into Ecobee.com first, then using the 3-bar menu icon in the top right to select `My Apps` from the menu.
+Due to the security measures required by Ecobee's API, the first run is a little tricky. I would recommend logging into [Ecobee.com](http://www.ecobee.com/) first, then using the 3-bar menu icon in the top right to select `My Apps` from the menu.
 
 <img src='images/006.png'/>
 
-Once logged into Ecobee.com and you're at the "My Apps" screen, click on the blue button next to the `Step 1` node at the top of the flow. This will start the process to request the 4-digit pin. ***You have 10 minutes to use the 4-digit pin on Ecobee.com under your `My Apps`*** 
+Once logged into [Ecobee.com](http://www.ecobee.com/) and you're at the "My Apps" screen, click on the blue button next to the `Step 1` node at the top of the flow. This will start the process to request the 4-digit pin. ***You have 10 minutes to use the 4-digit pin on Ecobee.com under your `My Apps`*** 
 
 <img src='images/007.png'/>
 
