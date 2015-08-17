@@ -1,0 +1,633 @@
+[
+  {
+    "id": "833243f.f7ccdc",
+    "type": "inject",
+    "name": "Refresh Thermostat Data",
+    "topic": "",
+    "payload": "Refresh Thermostat Variables",
+    "payloadType": "string",
+    "repeat": "120",
+    "crontab": "",
+    "once": true,
+    "x": 163.66665649414062,
+    "y": 458.5277900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "4e408652.b1bf78"
+      ]
+    ]
+  },
+  {
+    "id": "ab7a9fa3.54856",
+    "type": "function",
+    "name": "Get ecobeePin Token",
+    "func": "// Insert your Ecobee API Key into the following variable:\ncontext.global.EcobeeClientID=\"\";\n// Insert your Ecobee API key into the above variable.\n\nvar newMsg ={\n \"url\":\"https://api.ecobee.com/authorize?response_type=ecobeePin&client_id=\"+context.global.EcobeeClientID+\"&scope=smartWrite\",\n \"method\": \"GET\",\n headers: {\n }\n};\nreturn newMsg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 287.75,
+    "y": 106.5,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "ef8337a2.107cc8"
+      ]
+    ]
+  },
+  {
+    "id": "cad3e4d.f352c18",
+    "type": "debug",
+    "name": "",
+    "active": true,
+    "console": "true",
+    "complete": "payload",
+    "x": 867.7499389648438,
+    "y": 106.25,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "ef8337a2.107cc8",
+    "type": "http request",
+    "name": "",
+    "method": "use",
+    "ret": "obj",
+    "url": "",
+    "x": 494.75,
+    "y": 106.75,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "26581b88.d9a7e4"
+      ]
+    ]
+  },
+  {
+    "id": "bfc61497.4039e8",
+    "type": "function",
+    "name": "Get Thermostats",
+    "func": "if (context.global.EcobeeRefreshtoken!==\"\")\n{\n var newMsg={\n \"url\":\"https://api.ecobee.com/1/thermostat?format=json&body=%7B%22selection%22%3A%7B%22includeAlerts%22%3A%22false%22%2C%22selectionType%22%3A%22registered%22%2C%22selectionMatch%22%3A%22%22%2C%22includeEvents%22%3A%22false%22%2C%22includeSettings%22%3A%22false%22%2C%22includeRuntime%22%3A%22true%22%2C%22includeSensors%22%3A%22true%22%7D%7D\",\n \"method\": \"GET\",\n headers: {\n \"Content-Type\":\"application/json;charset=UTF-8\",\n \"Authorization\":\"Bearer \"+context.global.EcobeeAccessToken,\n }\n };\n}\nelse {\n var newMsg={\n \"url\":\"127.0.0.1\",\n \"method\":\"GET\"\n }\n}\nreturn newMsg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 515.9166564941406,
+    "y": 458.0277900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "1752a5d6.e8ad5a"
+      ]
+    ]
+  },
+  {
+    "id": "ccf88151.33078",
+    "type": "debug",
+    "name": "",
+    "active": true,
+    "console": "true",
+    "complete": "payload",
+    "x": 1144.0554809570312,
+    "y": 458.02780628204346,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "1752a5d6.e8ad5a",
+    "type": "http request",
+    "name": "Get Thermostat Request",
+    "method": "use",
+    "ret": "obj",
+    "url": "",
+    "x": 728.1666259765625,
+    "y": 458.0277900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "b3a1fcbb.4c5e"
+      ]
+    ]
+  },
+  {
+    "id": "a9a0adb8.565f5",
+    "type": "inject",
+    "name": "Refresh token every 30 minutes",
+    "topic": "",
+    "payload": "",
+    "payloadType": "none",
+    "repeat": "1800",
+    "crontab": "",
+    "once": true,
+    "x": 182,
+    "y": 347.2777900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "a92a1e04.56d5e"
+      ]
+    ]
+  },
+  {
+    "id": "a92a1e04.56d5e",
+    "type": "function",
+    "name": "Refresh Token",
+    "func": "context.global.EcobeeClientID=\"\";\n//context.global.EcobeeRefreshToken=\"\";\nvar newMsg ={\n \"url\":\"https://api.ecobee.com/token?grant_type=refresh_token&code=\"+context.global.EcobeeRefreshToken+\"&client_id=\"+context.global.EcobeeClientID+\"\",\n \"method\": \"POST\",\n headers: {\n }\n};\nreturn newMsg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 409.4166564941406,
+    "y": 347.2777900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "5ab6f1a3.a5491"
+      ]
+    ]
+  },
+  {
+    "id": "5ab6f1a3.a5491",
+    "type": "http request",
+    "name": "",
+    "method": "use",
+    "ret": "obj",
+    "url": "",
+    "x": 579.1666564941406,
+    "y": 347.0277900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "e680352c.197fc8"
+      ]
+    ]
+  },
+  {
+    "id": "ecbedcc9.13412",
+    "type": "function",
+    "name": "Define Access and Refresh Token vars",
+    "func": "context.global.EcobeeAccessToken=msg.payload.access_token;\ncontext.global.EcobeeRefreshToken=msg.payload.refresh_token;\nvar msg={ payload:{\n access_token:context.global.EcobeeAccessToken,\n refresh_token:context.global.EcobeeRefreshToken\n }\n};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 995.4166564941406,
+    "y": 353.5277900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "c69826bf.3967d8",
+        "44338f8.fbbcc7"
+      ]
+    ]
+  },
+  {
+    "id": "c69826bf.3967d8",
+    "type": "debug",
+    "name": "",
+    "active": true,
+    "console": "false",
+    "complete": "payload",
+    "x": 1254.1666564941406,
+    "y": 399.2777900695801,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "2671d0e3.d98e3",
+    "type": "comment",
+    "name": "Step #3 - Refresh Token Flow a few times for good measure.",
+    "info": "This flow will refresh your token every time the input button is pressed.\n\nGlobal variables set -- EcobeeAccessToken and EcobeeRefreshToken",
+    "x": 247.91665649414062,
+    "y": 312.7777900695801,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "a13172f6.5ece9",
+    "type": "comment",
+    "name": "Step #4 - Get Thermostat Data",
+    "info": "Get thermostat data",
+    "x": 156.30554962158203,
+    "y": 421.5555820465088,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "b3a1fcbb.4c5e",
+    "type": "function",
+    "name": "Display temperature",
+    "func": "var currentTemp=\"\";\ncontext.global.EcobeeThermostats =new Object();\ncontext.global.EcobeeSensors =new Object();\nSensorCaps =new Object();\nfor(i = 0; i<msg.payload.thermostatList.length; i++) \n { \n if (msg.payload.thermostatList[i].modelNumber==\"athenaSmart\")\n {\n context.global.EcobeeThermostats[msg.payload.thermostatList[i].identifier] = {\n \"name\":msg.payload.thermostatList[i].name,\n \"connected\":msg.payload.thermostatList[i].runtime.connected,\n \"actualTemperature\": msg.payload.thermostatList[i].runtime.actualTemperature,\n \"actualHumidity\": msg.payload.thermostatList[i].runtime.actualHumidity,\n \"desiredHeat\": msg.payload.thermostatList[i].runtime.desiredHeat,\n\t\t\t\t\"desiredCool\": msg.payload.thermostatList[i].runtime.desiredCool,\n\t\t\t\t\"desiredFanMode\": msg.payload.thermostatList[i].runtime.desiredFanMode\n };\n\t\t\tcurrentTemp=msg.payload.thermostatList[i].runtime.actualTemperature/10;\n for (j=0; j<msg.payload.thermostatList[i].remoteSensors.length; j++)\n {\n var SensorName=msg.payload.thermostatList[i].remoteSensors[j].name;\n var SensorInUse=msg.payload.thermostatList[i].remoteSensors[j].inUse;\n for (z=0; z<msg.payload.thermostatList[i].remoteSensors[j].capability.length; z++)\n {\n SensorCaps[msg.payload.thermostatList[i].remoteSensors[j].capability[z].id] = {\n \"type\":msg.payload.thermostatList[i].remoteSensors[j].capability[z].type,\n \"value\":msg.payload.thermostatList[i].remoteSensors[j].capability[z].value\n };\n \n if (SensorCaps[msg.payload.thermostatList[i].remoteSensors[j].capability[z].id].type==\"temperature\")\n {\n var SensorTemp=SensorCaps[msg.payload.thermostatList[i].remoteSensors[j].capability[z].id].value;\n }\n if (SensorCaps[msg.payload.thermostatList[i].remoteSensors[j].capability[z].id].type==\"occupancy\")\n {\n var SensorOccupancy=SensorCaps[msg.payload.thermostatList[i].remoteSensors[j].capability[z].id].value;\n }\n \n context.global.EcobeeSensors[msg.payload.thermostatList[i].remoteSensors[j].name] = {\n \"name\":SensorName,\n \"inUse\":SensorInUse,\n \"sensorTemp\":SensorTemp,\n \"sensorOccupancy\":SensorOccupancy\n };\n }\n }\n }\n }\n\nvar newMsg={\n payload:\"Thermostat data refreshed successfully. Your main thermostat is reading \" + currentTemp + \"*F.\"\n};\nreturn newMsg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 949.4165954589844,
+    "y": 457.7777900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "ccf88151.33078"
+      ]
+    ]
+  },
+  {
+    "id": "6186198c.9e79e8",
+    "type": "http response",
+    "name": "",
+    "x": 478.4166564941406,
+    "y": 560.7777900695801,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "bcffc8fd.430038",
+    "type": "function",
+    "name": "Throw Ecobee Data",
+    "func": "if(msg.req.headers.authorization && msg.req.headers.authorization==\"Bearer \"+context.global.FreeboardAuthTocken){\n msg.payload.thermostats=context.global.EcobeeThermostats;\n msg.payload.sensors=context.global.EcobeeSensors;\n msg.res.statusCode=\"200\";\nreturn msg;\n}\nelse\n{\n //msg.payload=\"Not Authorized\";\n msg.res.send(\"403\",\"Forbidden\");\n return;\n}\n\n//return msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 307.4166564941406,
+    "y": 560.7777900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "6186198c.9e79e8"
+      ]
+    ]
+  },
+  {
+    "id": "a66ce2e.f59932",
+    "type": "http in",
+    "name": "Get Ecobee Data",
+    "url": "/getEcobeeData",
+    "method": "get",
+    "x": 112.41665649414062,
+    "y": 560.7777900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "bcffc8fd.430038"
+      ]
+    ]
+  },
+  {
+    "id": "8fd3e23e.702c2",
+    "type": "inject",
+    "name": "Step 1",
+    "topic": "",
+    "payload": "",
+    "payloadType": "none",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 112.74999618530273,
+    "y": 106,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "ab7a9fa3.54856"
+      ]
+    ]
+  },
+  {
+    "id": "81861fbc.7e79e",
+    "type": "comment",
+    "name": "Step #1 - Requesting the 4-digit ecobeePin - Log in to Ecobee.com and go to your \"My Apps\" before clicking the Inject node.",
+    "info": "The ecobeePin must be entered into your \"My Apps\" in Ecobee.com within 10 minutes.",
+    "x": 454.75,
+    "y": 36.00000190734863,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "732543bc.8cdabc",
+    "type": "function",
+    "name": "Get Authorization Token",
+    "func": "var newMsg ={\n \"url\":\"https://api.ecobee.com/token?grant_type=ecobeePin&code=\"+context.global.EcobeeAccessToken+\"&client_id=\"+context.global.EcobeeClientID,\n \"method\": \"POST\",\n headers: {\n }\n}\nreturn newMsg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 309.75,
+    "y": 217,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "e41d0170.1be3"
+      ]
+    ]
+  },
+  {
+    "id": "bb889a03.447768",
+    "type": "debug",
+    "name": "",
+    "active": false,
+    "console": "true",
+    "complete": "payload",
+    "x": 698.75,
+    "y": 286.75,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "e41d0170.1be3",
+    "type": "http request",
+    "name": "",
+    "method": "use",
+    "ret": "obj",
+    "url": "",
+    "x": 511.7499694824219,
+    "y": 217.25,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "bb889a03.447768",
+        "717cb18f.8e835",
+        "566500d8.a99b"
+      ]
+    ]
+  },
+  {
+    "id": "260dedd1.d9f212",
+    "type": "comment",
+    "name": "Step #2 - Requesting the first access token - you must run Step 2 within 10 minutes of running Step 1.",
+    "info": "Now that the app has been added to your \"My Apps\" - we need to request our first access token.",
+    "x": 378.97222900390625,
+    "y": 181.49999523162842,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "26581b88.d9a7e4",
+    "type": "function",
+    "name": "Save access code",
+    "func": "context.global.EcobeeAccessToken = msg.payload.code;\nvar msg = {\"payload\":\"Ecobee Pin: \"+msg.payload.ecobeePin};\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 683.7499389648438,
+    "y": 106,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "cad3e4d.f352c18"
+      ]
+    ]
+  },
+  {
+    "id": "717cb18f.8e835",
+    "type": "file",
+    "name": "EcobeeTokens",
+    "filename": "Enter your preferred log location here",
+    "appendNewline": false,
+    "overwriteFile": "true",
+    "x": 705.75,
+    "y": 252,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "d413714e.2bec9",
+    "type": "file in",
+    "name": "EcobeeTokens",
+    "filename": "Enter your preferred log location here",
+    "format": "utf8",
+    "x": 280.9722213745117,
+    "y": 645.7777709960938,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "f09cc614.0f6338"
+      ]
+    ]
+  },
+  {
+    "id": "7162bd27.8e9d44",
+    "type": "debug",
+    "name": "",
+    "active": false,
+    "console": "true",
+    "complete": "payload",
+    "x": 886.9721603393555,
+    "y": 645.4444274902344,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "be74c4e9.418b38",
+    "type": "inject",
+    "name": "",
+    "topic": "",
+    "payload": "",
+    "payloadType": "none",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 108.97222137451172,
+    "y": 645.7777709960938,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "d413714e.2bec9"
+      ]
+    ]
+  },
+  {
+    "id": "ad093e44.52f6c",
+    "type": "function",
+    "name": "Define Access and Refresh Tokens",
+    "func": "if (msg.payload.refresh_token!==null)\n{\n context.global.EcobeeRefreshToken = msg.payload.refresh_token;\n node.warn(\"Refresh Token as Global Context: \"+context.global.EcobeeRefreshToken);\n}\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 649.9721603393555,
+    "y": 645.7777709960938,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "7162bd27.8e9d44"
+      ]
+    ]
+  },
+  {
+    "id": "44338f8.fbbcc7",
+    "type": "file",
+    "name": "EcobeeTokens",
+    "filename": "Enter your preferred log location here",
+    "appendNewline": false,
+    "overwriteFile": "true",
+    "x": 1263.4166564941406,
+    "y": 356.0277900695801,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "566500d8.a99b",
+    "type": "function",
+    "name": "Define Access and Refresh Tokens",
+    "func": "context.global.EcobeeRefreshToken = msg.payload.refresh_token;\ncontext.global.EcoBeeAccessToken = msg.payload.access_token;\nvar msg={ \"payload\":context.global.EcobeeRefreshToken };\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 767.75,
+    "y": 217,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "be92f8bb.416d08"
+      ]
+    ]
+  },
+  {
+    "id": "be92f8bb.416d08",
+    "type": "debug",
+    "name": "",
+    "active": true,
+    "console": "false",
+    "complete": "false",
+    "x": 1018.7499389648438,
+    "y": 217,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "e680352c.197fc8",
+    "type": "switch",
+    "name": "Refresh Token",
+    "property": "payload.refresh_token",
+    "rules": [
+      {
+        "t": "null"
+      },
+      {
+        "t": "nnull"
+      }
+    ],
+    "checkall": "true",
+    "outputs": 2,
+    "x": 742.9166564941406,
+    "y": 347.2777900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "1deecac2.e21135"
+      ],
+      [
+        "ecbedcc9.13412"
+      ]
+    ]
+  },
+  {
+    "id": "3f6d1b5b.c092e4",
+    "type": "comment",
+    "name": "This flow will extract the Access and Refresh tokens from the log file and put them in the global context variables.",
+    "info": "",
+    "x": 414.6388473510742,
+    "y": 609.4444274902344,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "4e408652.b1bf78",
+    "type": "delay",
+    "name": "",
+    "pauseType": "delay",
+    "timeout": "5",
+    "timeoutUnits": "seconds",
+    "rate": "1",
+    "rateUnits": "second",
+    "randomFirst": "1",
+    "randomLast": "5",
+    "randomUnits": "seconds",
+    "drop": false,
+    "x": 351.08331298828125,
+    "y": 458.4444770812988,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "bfc61497.4039e8"
+      ]
+    ]
+  },
+  {
+    "id": "4374de15.bc8b2",
+    "type": "comment",
+    "name": "You will have 2 minutes to enter the 4-digit pin into Ecobee.com and authorize the application. (Ecobee disgards the 4-pin code after 10 minutes!)",
+    "info": "",
+    "x": 521,
+    "y": 71,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "12741966.ed8be7",
+    "type": "comment",
+    "name": "Display Ecobee Data to Freeboard",
+    "info": "",
+    "x": 164.66665649414062,
+    "y": 523.7777900695801,
+    "z": "bb6b9101.44947",
+    "wires": []
+  },
+  {
+    "id": "f09cc614.0f6338",
+    "type": "json",
+    "name": "",
+    "x": 433.2222213745117,
+    "y": 645.7777709960938,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "ad093e44.52f6c"
+      ]
+    ]
+  },
+  {
+    "id": "1deecac2.e21135",
+    "type": "file in",
+    "name": "EcobeeTokens",
+    "filename": "Enter your preferred log location here",
+    "format": "utf8",
+    "x": 918.6666564941406,
+    "y": 320.7777900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "3276b94e.cd8946"
+      ]
+    ]
+  },
+  {
+    "id": "3276b94e.cd8946",
+    "type": "json",
+    "name": "",
+    "x": 1073.9166564941406,
+    "y": 320.7777900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "faf0535e.050fb"
+      ]
+    ]
+  },
+  {
+    "id": "faf0535e.050fb",
+    "type": "function",
+    "name": "Define Access and Refresh Tokens",
+    "func": "if (msg.payload.refresh_token!==null)\n{\n context.global.EcobeeRefreshToken = msg.payload.refresh_token;\n node.warn(\"Refresh Token as Global Context: \"+context.global.EcobeeRefreshToken);\n}\nreturn msg;",
+    "outputs": 1,
+    "noerr": 0,
+    "x": 1300.6665954589844,
+    "y": 320.7777900695801,
+    "z": "bb6b9101.44947",
+    "wires": [
+      []
+    ]
+  },
+  {
+    "id": "aca47dc.f535b8",
+    "type": "inject",
+    "name": "Step 2",
+    "topic": "",
+    "payload": "",
+    "payloadType": "none",
+    "repeat": "",
+    "crontab": "",
+    "once": false,
+    "x": 108,
+    "y": 217,
+    "z": "bb6b9101.44947",
+    "wires": [
+      [
+        "732543bc.8cdabc"
+      ]
+    ]
+  }
+]
