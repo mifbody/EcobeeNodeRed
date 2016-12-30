@@ -19,7 +19,11 @@ You will now have an application API key -- save this, as we will need it for ou
 
 ### Import flow into Node Red
 Next, import the Node Red flow located here: 
-> [https://github.com/mifbody/EcobeeNodeRed/blob/master/ecobeeflow.txt](https://github.com/mifbody/EcobeeNodeRed/blob/master/ecobeeflow.txt)
+> [https://raw.githubusercontent.com/mifbody/EcobeeNodeRed/master/ecobee-Local.json](https://raw.githubusercontent.com/mifbody/EcobeeNodeRed/master/ecobee-Local.json)
+
+-or-
+
+> [https://raw.githubusercontent.com/mifbody/EcobeeNodeRed/master/ecobee-BlueMix.json](https://raw.githubusercontent.com/mifbody/EcobeeNodeRed/master/ecobee-BlueMix.json)
 
 To import a flow into Node Red, copy the data from the above link into your clipboard. Next return to Node Red and use the 3-bar menu button on the top right to open the Menu. Click on `Import` and then `Clipboard`
 
