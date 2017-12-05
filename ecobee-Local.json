@@ -129,7 +129,7 @@
     "id": "a92a1e04.56d5e",
     "type": "function",
     "name": "Refresh Token",
-    "func": "context.global.EcobeeClientID=\"\";\n//context.global.EcobeeRefreshToken=\"\";\nvar newMsg ={\n \"url\":\"https://api.ecobee.com/token?grant_type=refresh_token&code=\"+context.global.EcobeeRefreshToken+\"&client_id=\"+context.global.EcobeeClientID+\"\",\n \"method\": \"POST\",\n headers: {\n }\n};\nreturn newMsg;",
+    "func": "//context.global.EcobeeClientID=\"\";\n//context.global.EcobeeRefreshToken=\"\";\nvar newMsg ={\n \"url\":\"https://api.ecobee.com/token?grant_type=refresh_token&code=\"+context.global.EcobeeRefreshToken+\"&client_id=\"+context.global.EcobeeClientID+\"\",\n \"method\": \"POST\",\n headers: {\n }\n};\nreturn newMsg;",
     "outputs": 1,
     "noerr": 0,
     "x": 409.4166564941406,
